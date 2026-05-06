@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Glancy D'Sa — Project Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #12121a;
+  --bg3: #1a1a26;
+  --accent: #6c63ff;
+  --accent2: #a78bfa;
+  --accent3: #38bdf8;
+  --text: #f0eeff;
+  --muted: #8a85a8;
+  --border: rgba(108,99,255,0.2);
+  --card: rgba(26,26,38,0.8);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Grid bg */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glow orbs */
+body::after {
+  content: '';
+  position: fixed;
+  top: -200px; left: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 60px;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.7);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800; font-size: 20px;
+  color: var(--accent2);
+  letter-spacing: -0.5px;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  color: var(--muted); text-decoration: none;
+  font-size: 14px; font-weight: 500; letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text); }
+
+/* HERO */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 60px 80px;
+  max-width: 1100px;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(108,99,255,0.1);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 13px; color: var(--accent2);
+  margin-bottom: 32px;
+  width: fit-content;
+}
+.hero-tag span { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); display: inline-block; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+
+h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -3px;
+  margin-bottom: 24px;
+}
+h1 .line2 { color: var(--accent2); }
+h1 .line3 { color: var(--muted); font-weight: 400; font-size: 0.55em; letter-spacing: -1px; display: block; margin-top: 8px; }
+
+.hero-desc {
+  max-width: 560px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.8;
+  margin-bottom: 40px;
+}
+.hero-desc strong { color: var(--text); font-weight: 500; }
+
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600; font-size: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 30px rgba(108,99,255,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(108,99,255,0.5); }
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  padding: 14px 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  text-decoration: none;
+  font-weight: 500; font-size: 15px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.btn-secondary:hover { border-color: var(--accent2); background: rgba(108,99,255,0.08); }
+
+.hero-stats {
+  display: flex; gap: 48px;
+  margin-top: 64px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 36px; font-weight: 800;
+  color: var(--accent2); letter-spacing: -1px;
+}
+.stat-label { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+/* SECTIONS */
+section { position: relative; z-index: 1; padding: 100px 60px; max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 16px;
+}
+h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+  margin-bottom: 48px;
+}
+h2 em { color: var(--accent2); font-style: normal; }
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px; align-items: start;
+}
+.about-text p { color: var(--muted); margin-bottom: 20px; line-height: 1.9; }
+.about-text p strong { color: var(--text); font-weight: 500; }
+
+.skills-grid { display: flex; flex-direction: column; gap: 16px; }
+.skill-item { }
+.skill-name { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+.skill-name span:first-child { color: var(--text); font-weight: 500; }
+.skill-name span:last-child { color: var(--accent2); }
+.skill-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+.skill-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--accent2)); animation: fillbar 1.5s ease forwards; transform-origin: left; }
+@keyframes fillbar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* EXPERIENCE */
+.exp-list { display: flex; flex-direction: column; gap: 2px; }
+.exp-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px 36px;
+  transition: border-color 0.2s, transform 0.2s;
+  backdrop-filter: blur(10px);
+}
+.exp-card:hover { border-color: rgba(108,99,255,0.4); transform: translateX(4px); }
+.exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.exp-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; }
+.exp-period {
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  background: rgba(108,99,255,0.12);
+  color: var(--accent2); padding: 4px 12px; border-radius: 100px;
+  white-space: nowrap;
+}
+.exp-company { color: var(--accent); font-size: 14px; font-weight: 500; margin-bottom: 16px; }
+.exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.exp-bullets li { color: var(--muted); font-size: 14px; padding-left: 20px; position: relative; }
+.exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 12px; }
+.exp-connector {
+  width: 1px; height: 24px;
+  background: var(--border);
+  margin: 0 auto;
+}
+
+/* PROJECTS */
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.project-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px;
+  backdrop-filter: blur(10px);
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex; flex-direction: column;
+}
+.project-card:hover { border-color: rgba(108,99,255,0.5); transform: translateY(-4px); }
+.project-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; margin-bottom: 20px;
+}
+.project-card h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 10px; letter-spacing: -0.3px;
+}
+.project-card p { color: var(--muted); font-size: 13px; line-height: 1.7; margin-bottom: 20px; flex: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 4px 10px; border-radius: 100px;
+  background: rgba(108,99,255,0.1);
+  color: var(--accent2);
+  border: 1px solid rgba(108,99,255,0.2);
+}
+.tag.blue { background: rgba(56,189,248,0.1); color: var(--accent3); border-color: rgba(56,189,248,0.2); }
+.tag.green { background: rgba(52,211,153,0.1); color: #34d399; border-color: rgba(52,211,153,0.2); }
+
+.project-outcome {
+  margin-top: 16px; padding: 12px 16px;
+  background: rgba(108,99,255,0.06);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px; color: var(--muted);
+}
+.project-outcome strong { color: var(--accent2); }
+
+/* CERTS */
+.certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cert-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 20px 24px;
+  display: flex; align-items: center; gap: 16px;
+  transition: border-color 0.2s;
+}
+.cert-card:hover { border-color: rgba(108,99,255,0.4); }
+.cert-icon { font-size: 28px; flex-shrink: 0; }
+.cert-name { font-size: 14px; font-weight: 600; }
+.cert-org { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* CONTACT */
+.contact-wrap {
+  background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(167,139,250,0.05));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 64px;
+  text-align: center;
+}
+.contact-wrap h2 { margin-bottom: 16px; }
+.contact-wrap p { color: var(--muted); max-width: 480px; margin: 0 auto 40px; }
+.contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.contact-link {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 20px;
+  color: var(--text); text-decoration: none;
+  font-size: 14px; font-weight: 500;
+  transition: border-color 0.2s, background 0.2s;
+}
+.contact-link:hover { border-color: var(--accent2); background: rgba(108,99,255,0.1); }
+
+/* FOOTER */
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 32px 60px;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 13px;
+}
+
+/* FADE IN */
+.fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero, section { padding: 80px 24px; }
+  .hero { padding-top: 100px; }
+  h1 { letter-spacing: -2px; }
+  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .certs-grid { grid-template-columns: 1fr 1fr; }
+  .hero-stats { gap: 28px; }
+  .contact-wrap { padding: 36px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">GD'Sa</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero fade-in visible">
+  <div class="hero-tag"><span></span> Open to PM &amp; AI Project roles</div>
+  <h1>
+    Glancy<br/>
+    <span class="line2">D'Sa</span>
+    <span class="line3">Project Manager · AI &amp; Technology</span>
+  </h1>
+  <p class="hero-desc">
+    B.E. Computer Science graduate with hands-on experience leading <strong>AI system deployments</strong>, cross-functional team coordination, and technical project execution. <strong>Google-certified</strong> in Project Management.
+  </p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">View My Projects</a>
+    <a href="#contact" class="btn-secondary">Get In Touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">93.6%</div>
+      <div class="stat-label">Detection accuracy on AI project</div>
+    </div>
+    <div>
+      <div class="stat-num">70%</div>
+      <div class="stat-label">Reduction in manual reporting overhead</div>
+    </div>
+    <div>
+      <div class="stat-num">20%</div>
+      <div class="stat-label">Efficiency gain from optimization</div>
+    </div>
+    <div>
+      <div class="stat-num">5+</div>
+      <div class="stat-label">End-to-end projects delivered</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label fade-in">About</div>
+  <h2 class="fade-in">Where <em>tech</em> meets<br/>project leadership</h2>
+  <div class="about-grid">
+    <div class="about-text fade-in">
+      <p>I'm a Computer Science graduate from University of Mumbai with a specialization in <strong>Cybersecurity</strong>. My career sits at the intersection of AI engineering and project management — I've led real deployments, not just studied them.</p>
+      <p>At Merklebits, I drove an <strong>AI-powered CCTV anomaly detection system</strong> from concept to production, coordinating across dev and ops teams while managing risks, documentation, and delivery timelines.</p>
+      <p>I believe the best project managers in tech are those who understand the code and the business equally well. That's what I bring to every project.</p>
+      <p>🏆 <strong>Published researcher</strong> — Tradocompanion paper in Journal of Technology · 2nd Place, TE CMPN Mini Project Competition.</p>
+    </div>
+    <div class="skills-grid fade-in">
+      <div class="skill-item">
+        <div class="skill-name"><span>Project Planning & Scheduling</span><span>90%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Agile / Scrum</span><span>85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Risk Assessment</span><span>82%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Stakeholder Management</span><span>80%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Power BI / Reporting Dashboards</span><span>88%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-name"><span>Python / SQL / AI Deployment</span><span>85%</span></div>
+        <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label fade-in">Experience</div>
+  <h2 class="fade-in">Where I've<br/><em>delivered</em> results</h2>
+  <div class="exp-list">
+    <div class="exp-card fade-in">
+      <div class="exp-header">
+        <div class="exp-title">AI Engineer Intern</div>
+        <div class="exp-period">2024 – 2025</div>
+      </div>
+      <div class="exp-company">Merklebits Pvt. Ltd. · Mumbai</div>
+      <ul class="exp-bullets">
+        <li>Led execution of AI-based real-time CCTV anomaly detection system — achieved <strong style="color:#a78bfa">93.6% detection accuracy</strong></li>
+        <li>Coordinated across development and operations teams to deliver project milestones within defined timelines</li>
+        <li>Developed full project documentation: workflows, requirement mapping, technical specifications</li>
+        <li>Identified performance risks and implemented model optimization improving efficiency by <strong style="color:#a78bfa">20%</strong></li>
+        <li>Designed automated alert and reporting modules (Flask + Firebase), reducing manual reporting overhead by <strong style="color:#a78bfa">70%</strong></li>
+        <li>Built KPI dashboards in Power BI to monitor system performance and support leadership decision-making</li>
+      </ul>
+    </div>
+    <div class="exp-connector"></div>
+    <div class="exp-card fade-in">
+      <div class="exp-header">
+        <div class="exp-title">Data Analytics Simulation</div>
+        <div class="exp-period">Nov 2025</div>
+      </div>
+      <div class="exp-company">Tata iQ · Tata Group via Forage · Remote</div>
+      <ul class="exp-bullets">
+        <li>Conducted EDA using GenAI tools to assess data quality and surface risk indicators for a financial-services product</li>
+        <li>Proposed a no-code predictive modelling framework for customer delinquency risk</li>
+        <li>Structured findings into an executive presentation ready for senior stakeholder review</li>
+      </ul>
+    </div>
+    <div class="exp-connector"></div>
+    <div class="exp-card fade-in">
+      <div class="exp-header">
+        <div class="exp-title">Project Management Intern</div>
+        <div class="exp-period">2024</div>
+      </div>
+      <div class="exp-company">Accenture Australia · Forage Simulation</div>
+      <ul class="exp-bullets">
+        <li>Contributed to project planning and SDLC execution for secure online voting system</li>
+        <li>Assisted in requirement gathering, stakeholder documentation, and solution blueprinting</li>
+        <li>Supported risk analysis and contingency planning across full project lifecycle</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label fade-in">Portfolio Projects</div>
+  <h2 class="fade-in">Projects I've<br/><em>planned & executed</em></h2>
+
+  <!-- AI TOOLS ROW -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;" class="fade-in">
+    <div style="height:1px;flex:1;background:var(--border)"></div>
+    <span style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--accent2);text-transform:uppercase;">✦ Live AI Tools</span>
+    <div style="height:1px;flex:1;background:var(--border)"></div>
+  </div>
+  <div class="projects-grid" style="grid-template-columns:1fr 1fr;margin-bottom:40px;">
+
+    <div class="project-card fade-in" style="border-color:rgba(167,139,250,0.4); position:relative; overflow:hidden;">
+      <div style="position:absolute;top:14px;right:14px;font-size:10px;font-weight:700;letter-spacing:1px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;padding:3px 10px;border-radius:100px;">LIVE AI TOOL</div>
+      <div class="project-icon" style="background:rgba(167,139,250,0.2)">⚠️</div>
+      <h3>AI-Powered Project Risk Analyzer</h3>
+      <p>Type a plain-English project brief and instantly receive a full risk register — risk name, category (Technical / Financial / Resource / Timeline), probability, impact, and mitigation strategy. Replaces hours of manual PM documentation with a single prompt.</p>
+      <div class="project-outcome"><strong>Impact:</strong> Auto-generates structured risk registers in seconds · Deep PM risk-management + practical AI integration</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag">Risk Management</span>
+        <span class="tag blue">AI / LLM</span>
+        <span class="tag green">Live Product</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in" style="border-color:rgba(56,189,248,0.4); position:relative; overflow:hidden;">
+      <div style="position:absolute;top:14px;right:14px;font-size:10px;font-weight:700;letter-spacing:1px;background:linear-gradient(90deg,var(--accent3),var(--accent2));color:#fff;padding:3px 10px;border-radius:100px;">LIVE AI TOOL</div>
+      <div class="project-icon" style="background:rgba(56,189,248,0.15)">🎯</div>
+      <h3>AI Backlog Prioritization Engine</h3>
+      <p>AI-driven system combining RICE scoring and MoSCoW classification to prioritize product backlogs in seconds — the same methodology used at Spotify and Atlassian. Converts hours of stakeholder debate into a structured, data-backed priority stack.</p>
+      <div class="project-outcome"><strong>Impact:</strong> Faster, objective product decisions · Eliminates prioritization bias · Methodology used by top PM teams</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag blue">RICE Scoring</span>
+        <span class="tag">MoSCoW</span>
+        <span class="tag green">Live Product</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PM & DELIVERY PROJECTS -->
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;" class="fade-in">
+    <div style="height:1px;flex:1;background:var(--border)"></div>
+    <span style="font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;">✦ PM & Delivery Projects</span>
+    <div style="height:1px;flex:1;background:var(--border)"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card fade-in">
+      <div class="project-icon" style="background:rgba(108,99,255,0.15)">🤖</div>
+      <h3>AI CCTV Anomaly Detection System</h3>
+      <p>End-to-end PM execution of a real-time computer vision system for security monitoring. Managed SDLC from requirements to deployment with cross-functional team coordination.</p>
+      <div class="project-outcome"><strong>Outcome:</strong> 93.6% accuracy, 20% efficiency improvement, on-time delivery</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag">Agile</span>
+        <span class="tag blue">Python</span>
+        <span class="tag green">Live Project</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-icon" style="background:rgba(56,189,248,0.12)">🗳️</div>
+      <h3>Secure Online Voting System</h3>
+      <p>Led PM activities for a secure digital voting platform. Defined project scope, gathered stakeholder requirements, mapped SDLC phases, and supported risk analysis and contingency planning.</p>
+      <div class="project-outcome"><strong>Deliverables:</strong> Scope doc, stakeholder register, risk register, solution blueprint</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag">SDLC</span>
+        <span class="tag blue">Risk Management</span>
+        <span class="tag">Stakeholders</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-icon" style="background:rgba(52,211,153,0.12)">📊</div>
+      <h3>Sales Operations Automation & Reporting</h3>
+      <p>Developed BRDs for CRM integration, built KPI dashboards to monitor sales milestones, and standardized reporting workflows to eliminate bottlenecks.</p>
+      <div class="project-outcome"><strong>Outcome:</strong> Improved pipeline visibility, standardized reporting structure</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag green">Power BI</span>
+        <span class="tag">BRD</span>
+        <span class="tag blue">CRM</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-icon" style="background:rgba(167,139,250,0.15)">🌦️</div>
+      <h3>Maharashtra Weather Prediction App</h3>
+      <p>Executed end-to-end AI solution integrating live APIs and regression models. Managed delivery from data architecture to dashboard reporting and performance measurement.</p>
+      <div class="project-outcome"><strong>Deliverables:</strong> API integration, ML pipeline, performance dashboard</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag blue">Python</span>
+        <span class="tag">ML Deployment</span>
+        <span class="tag green">Flask</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-icon" style="background:rgba(108,99,255,0.15)">☁️</div>
+      <h3>Cloud Migration – IT PM Case Study</h3>
+      <p>Planned and documented a full cloud infrastructure migration project. Created WBS, risk register, stakeholder communication plan, and sprint-based execution roadmap.</p>
+      <div class="project-outcome"><strong>Deliverables:</strong> WBS, Risk Register, Migration Roadmap, Sprint Plan</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag">Agile</span>
+        <span class="tag blue">Cloud</span>
+        <span class="tag">Risk Management</span>
+      </div>
+    </div>
+
+    <div class="project-card fade-in">
+      <div class="project-icon" style="background:rgba(56,189,248,0.12)">🚀</div>
+      <h3>Agile Sprint Simulation – App Launch</h3>
+      <p>Simulated full Agile project lifecycle for a mobile app launch. Managed product backlog in Jira, ran 2-week sprints, conducted retrospectives, and tracked velocity.</p>
+      <div class="project-outcome"><strong>Deliverables:</strong> Jira board, Backlog, Sprint docs, Retrospective report</div>
+      <div class="tags" style="margin-top:14px">
+        <span class="tag">Scrum</span>
+        <span class="tag blue">Jira</span>
+        <span class="tag green">Kanban</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-label fade-in">Certifications</div>
+  <h2 class="fade-in">Credentials &<br/><em>qualifications</em></h2>
+  <div class="certs-grid">
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🧠</div>
+      <div>
+        <div class="cert-name">AI Fluency: Framework & Foundations</div>
+        <div class="cert-org">Anthropic · 2026</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🎮</div>
+      <div>
+        <div class="cert-name">Product Management Simulation</div>
+        <div class="cert-org">Electronic Arts · Forage · 2026</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🎯</div>
+      <div>
+        <div class="cert-name">Google Project Management</div>
+        <div class="cert-org">Coursera · PMI Recognized</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🤖</div>
+      <div>
+        <div class="cert-name">Google AI Essentials</div>
+        <div class="cert-org">Google · Coursera</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">📊</div>
+      <div>
+        <div class="cert-name">Power BI with AI</div>
+        <div class="cert-org">Microsoft · Coursera</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🎓</div>
+      <div>
+        <div class="cert-name">B.E. Computer Science</div>
+        <div class="cert-org">University of Mumbai · Honors: Cybersecurity</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">🏢</div>
+      <div>
+        <div class="cert-name">PM Internship – Accenture</div>
+        <div class="cert-org">Forage · Australia</div>
+      </div>
+    </div>
+    <div class="cert-card fade-in">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">Foundations of PM</div>
+        <div class="cert-org">Coursera · Google</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap fade-in">
+    <div class="section-label" style="justify-content:center;display:flex;margin-bottom:16px">Contact</div>
+    <h2>Let's build something<br/><em>great together</em></h2>
+    <p>I'm actively looking for Project Manager, Technical PM, or AI Project roles. Let's connect!</p>
+    <div class="contact-links">
+      <a href="mailto:glancydsa11@gmail.com" class="contact-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16v16H4z" rx="2"/><polyline points="22,6 12,13 2,6"/></svg>
+        glancydsa11@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/glancydsa" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zm2-3a2 2 0 110-4 2 2 0 010 4z"/></svg>
+        linkedin.com/in/glancydsa
+      </a>
+      <a href="tel:+918390216084" class="contact-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.64A2 2 0 012 .18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        +91 83902 16084
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Glancy D'Sa · Project Manager · Mumbai, Maharashtra</p>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
